@@ -15,9 +15,10 @@ namespace MiniWavePlayer
         Ratchet.IO.Format.Waveform.Channel<Int16> _Channel;
         int _Offset = 0;
 
-        public WaveChannel(Ratchet.IO.Format.Waveform.Channel<Int16> Channel)
+        public WaveChannel(Ratchet.IO.Format.Waveform.Channel<Int16> Channel, uint SampleRate)
         {
             _Channel = Channel;
+            this.SampleRate = SampleRate;
         }
 
         public override int Read(Int16[] Buffer, int FrameCount)
@@ -99,13 +100,13 @@ namespace MiniWavePlayer
                 _Sound = Ratchet.IO.Format.Waveform.Read<Int16>(System.IO.File.ReadAllBytes(openFileDialog.FileName));
                 if (_Sound.Channels.Count == 1)
                 {
-                    WaveChannel channel = new WaveChannel(_Sound.Channels[0]);
+                    WaveChannel channel = new WaveChannel(_Sound.Channels[0], _Sound.SampleRate);
                     _Mixer.AddSource(channel);
                 }
                 else if (_Sound.Channels.Count >= 2)
                 {
-                    WaveChannel left = new WaveChannel(_Sound.Channels[0]);
-                    WaveChannel right = new WaveChannel(_Sound.Channels[1]);
+                    WaveChannel left = new WaveChannel(_Sound.Channels[0], _Sound.SampleRate);
+                    WaveChannel right = new WaveChannel(_Sound.Channels[1], _Sound.SampleRate);
                     left.X = -0.8f;
                     right.X = 0.8f;
                     _Mixer.AddSource(left);

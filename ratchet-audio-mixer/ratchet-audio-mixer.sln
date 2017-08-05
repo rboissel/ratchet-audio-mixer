@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ratchet-audio-mixer", "ratchet-audio-mixer\ratchet-audio-mixer.csproj", "{7336AAE5-5A29-4202-BED0-4530AD271213}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{7A7750A9-228C-463D-B03C-E21E0CD69B73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniWavePlayer", "Samples\MiniWavePlayer\MiniWavePlayer.csproj", "{694460FC-5AF2-43DC-84EB-172688D7F705}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Builds", "Builds", "{656E450E-1867-4030-9560-265A1FBF9EEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -15,7 +15,7 @@ namespace Ratchet.Audio
             internal float _Z = 0.0f; public virtual float Z { get { return _Z; } set { _Z = value; } }
             internal float _LinearAttenuation = 0.1f; public float LinearAttenuation { get { return _LinearAttenuation; } set { _LinearAttenuation = value; } }
             internal float _QuadraticAttenuation = 0.01f; public float QuadraticAttenuation { get { return _QuadraticAttenuation; } set { _QuadraticAttenuation = value; } }
-
+            internal uint _SampleRate = 192000; public virtual uint SampleRate { get { return _SampleRate; } set { _SampleRate = value; } }
             public abstract int Read(T[] Buffer, int FrameCount);
         }
 
@@ -26,9 +26,11 @@ namespace Ratchet.Audio
             public override float X { get => _Channel.X; set => _Channel.X = value; }
             public override float Y { get => _Channel.Y; set => _Channel.Y = value; }
             public override float Z { get => _Channel.Z; set => _Channel.Z = value; }
+            public override uint SampleRate { get => _Channel.SampleRate; set => _Channel.SampleRate = value; }
+
 
             Source<byte> _Channel = null;
-            byte[] _TempBuffer = new byte[4096];
+            byte[] _TempBuffer = new byte[16 * 1024];
 
             public Source_Byte_Adapter(Source<byte> SourceChannel)
             {
@@ -38,11 +40,14 @@ namespace Ratchet.Audio
             public override int Read(float[] Buffer, int FrameCount)
             {
                 int remaining = FrameCount;
+                int offset = 0;
                 while (remaining > 0)
                 {
                     int count = _Channel.Read(_TempBuffer, remaining > _TempBuffer.Length ? _TempBuffer.Length : remaining);
+                    for (int n = 0; n < count; offset++, n++) { Buffer[offset] = (((float)_TempBuffer[n]) / 128.0f) - 1.0f; }
+                    remaining -= count;
                 }
-                return 0;
+                return offset;
             }
         }
 
@@ -51,9 +56,10 @@ namespace Ratchet.Audio
             public override float X { get => _Channel.X; set => _Channel.X = value; }
             public override float Y { get => _Channel.Y; set => _Channel.Y = value; }
             public override float Z { get => _Channel.Z; set => _Channel.Z = value; }
+            public override uint SampleRate { get => _Channel.SampleRate; set => _Channel.SampleRate = value; }
 
             Source<Int16> _Channel = null;
-            Int16[] _TempBuffer = new Int16[4096];
+            Int16[] _TempBuffer = new Int16[16 * 1024];
 
             public Source_Int16_Adapter(Source<Int16> SourceChannel)
             {
@@ -79,9 +85,10 @@ namespace Ratchet.Audio
             public override float X { get => _Channel.X; set => _Channel.X = value; }
             public override float Y { get => _Channel.Y; set => _Channel.Y = value; }
             public override float Z { get => _Channel.Z; set => _Channel.Z = value; }
+            public override uint SampleRate { get => _Channel.SampleRate; set => _Channel.SampleRate = value; }
 
             Source<Int32> _Channel = null;
-            Int32[] _TempBuffer = new Int32[4096];
+            Int32[] _TempBuffer = new Int32[16 * 1024];
 
             public Source_Int32_Adapter(Source<Int32> SourceChannel)
             {
@@ -91,9 +98,12 @@ namespace Ratchet.Audio
             public override int Read(float[] Buffer, int FrameCount)
             {
                 int remaining = FrameCount;
+                int offset = 0;
                 while (remaining > 0)
                 {
                     int count = _Channel.Read(_TempBuffer, remaining > _TempBuffer.Length ? _TempBuffer.Length : remaining);
+                    for (int n = 0; n < count; offset++, n++) { Buffer[offset] = (((float)_TempBuffer[n]) / (float)(Int32.MaxValue)); }
+                    remaining -= count;
                 }
                 return 0;
             }
@@ -102,10 +112,10 @@ namespace Ratchet.Audio
         public void AddSource<T>(Source<T> Channel)
         {
 
-            if (typeof(T) == typeof(float)) { _Channels.Add(Channel as Source<float>); }
-            else if (typeof(T) == typeof(byte)) { _Channels.Add(new Source_Byte_Adapter(Channel as Source<byte>)); }
-            else if (typeof(T) == typeof(Int16)) { _Channels.Add(new Source_Int16_Adapter(Channel as Source<Int16>)); }
-            else if (typeof(T) == typeof(Int32)) { _Channels.Add(new Source_Int32_Adapter(Channel as Source<Int32>)); }
+            if (typeof(T) == typeof(float)) { _Channels.Add(new Upsampler_To_192K(Channel as Source<float>)); }
+            else if (typeof(T) == typeof(byte)) { _Channels.Add(new Upsampler_To_192K(new Source_Byte_Adapter(Channel as Source<byte>))); }
+            else if (typeof(T) == typeof(Int16)) { _Channels.Add(new Upsampler_To_192K(new Source_Int16_Adapter(Channel as Source<Int16>))); }
+            else if (typeof(T) == typeof(Int32)) { _Channels.Add(new Upsampler_To_192K(new Source_Int32_Adapter(Channel as Source<Int32>))); }
         }
 
         internal class SourceDataChunk

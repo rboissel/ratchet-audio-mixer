@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Resampler.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="Listener.cs" />
     <Compile Include="Mixer_Interface.cs" />

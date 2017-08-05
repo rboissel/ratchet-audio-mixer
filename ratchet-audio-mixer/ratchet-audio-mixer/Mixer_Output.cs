@@ -24,6 +24,14 @@ namespace Ratchet.Audio
             public Encoder_Float_To_Byte(int ChannelCount) : base(ChannelCount) { }
             public override unsafe void Encode(void* Output, void* Input, int Count, int ChannelId)
             {
+                byte* pOutput = (byte*)Output + ChannelId;
+                float* pInput = (float*)Input;
+
+                for (int n = 0; n < Count; n++)
+                {
+                    *pOutput = (byte)(((*pInput++) * 127.0f) + 128.0f);
+                    pOutput += _ChannelCount;
+                }
             }
         }
 
@@ -32,6 +40,14 @@ namespace Ratchet.Audio
             public Encoder_Float_To_Int16(int ChannelCount) : base(ChannelCount) { }
             public override unsafe void Encode(void* Output, void* Input, int Count, int ChannelId)
             {
+                Int16* pOutput = (Int16*)Output + ChannelId;
+                float* pInput = (float*)Input;
+
+                for (int n = 0; n < Count; n++)
+                {
+                    *pOutput = (Int16)((*pInput++) * (float)(Int16.MaxValue - 1));
+                    pOutput += _ChannelCount;
+                }
             }
         }
 
@@ -40,6 +56,14 @@ namespace Ratchet.Audio
             public Encoder_Float_To_Int32(int ChannelCount) : base(ChannelCount) { }
             public override unsafe void Encode(void* Output, void* Input, int Count, int ChannelId)
             {
+                Int32* pOutput = (Int32*)Output + ChannelId;
+                float* pInput = (float*)Input;
+
+                for (int n = 0; n < Count; n++)
+                {
+                    *pOutput = (Int32)((*pInput++) * (float)(int.MaxValue - 1));
+                    pOutput += _ChannelCount;
+                }
             }
         }
 
@@ -88,6 +112,12 @@ namespace Ratchet.Audio
                 lock (this)
                 {
                     _OutputSampleRate = value;
+
+                    if (_OutputSampleRate == 192000) { _Downsampler = new Downsampler_None(); }
+                    else if (_OutputSampleRate == 92000) { _Downsampler = new Downsampler_From_192K_To_92K(); }
+                    else if (_OutputSampleRate == 48000) { _Downsampler = new Downsampler_From_192K_To_48K(); }
+                    else { _Downsampler = new Downsampler_From_192K((int)_OutputSampleRate); }
+
                 }
             }
         }
@@ -118,6 +148,8 @@ namespace Ratchet.Audio
         }
 
         Dictionary<int, List<Listener>> _Listeners = new Dictionary<int, List<Listener>>();
+
+        Downsampler _Downsampler = new Downsampler_None();
 
         public Listener CreateListener(float X, float Y, float Z, int OutputChannel)
         {

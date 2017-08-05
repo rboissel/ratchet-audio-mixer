@@ -31,6 +31,11 @@ namespace Ratchet.Audio
 
         public unsafe override int Read(byte[] buffer, int offset, int count)
         {
+            if (_OutputBytePerFrame == 0 || count == 0) { return 0; }
+
+            int processingCount = count;
+            if (192000 % _OutputBytePerFrame == 0) { processingCount *= (192000 / (int)_OutputSampleRate); }
+            else { processingCount = (int)((float)count * (192000.0f / (float)_OutputSampleRate)); }
 
             int processedCount = 0;
             lock (this)
@@ -39,7 +44,17 @@ namespace Ratchet.Audio
                 // Process systematically 16KFrame at a time at most
 
                 int frameCount = count / _OutputBytePerFrame;
-                if (frameCount > 1024 * 16) { frameCount = 1024 * 16; }
+                int processingFrameCount = processingCount / (sizeof(float) * _OutputNumChannels);
+                if (processingFrameCount > 1024 * 16)
+                {
+                    processingFrameCount = 1024 * 16;
+                    processingCount = processingFrameCount * (sizeof(float) * _OutputNumChannels);
+                    if (192000 % _OutputBytePerFrame == 0) { count = processingCount / (192000 / (int)_OutputSampleRate); }
+                    else { count = (int)((float)processingCount / (192000.0f / (float)_OutputSampleRate)); }
+                    frameCount = count / _OutputBytePerFrame;
+                }
+
+
 
                 // Read the data for all the sources
                 for (int n = 0; n < _Channels.Count; n++) 
@@ -50,8 +65,8 @@ namespace Ratchet.Audio
                         chunk.data = new float[1024 * 16];
                         _TempSources.Add(chunk);
                     }
-                    _Channels[n].Read(_TempSources[n].data, frameCount);
-                    _TempSources[n].count = frameCount;
+                    _Channels[n].Read(_TempSources[n].data, processingFrameCount);
+                    _TempSources[n].count = processingFrameCount;
                     _TempSources[n].x = _Channels[n].X;
                     _TempSources[n].y = _Channels[n].Y;
                     _TempSources[n].z = _Channels[n].Z;
@@ -70,7 +85,7 @@ namespace Ratchet.Audio
                         for (int l = 0; l < listeners.Count; l++)
                         {
                             while (l >= _TempBuffers.Count) { _TempBuffers.Add(new float[1024 * 16]); }
-                            listenerReadCount = listeners[l].Compute(_TempSources, _TempBuffers[l], frameCount);
+                            listenerReadCount = listeners[l].Compute(_TempSources, _TempBuffers[l], processingFrameCount);
                             if (listenerReadCount < minListenerReadCount) { minListenerReadCount = listenerReadCount; }
                             if (l > 0)
                             {
@@ -84,6 +99,8 @@ namespace Ratchet.Audio
                         }
 
                         // Time to encode the result
+                        _Downsampler.Downsample(_TempBuffers[0], processingFrameCount);
+
                         fixed (float* pSource = &_TempBuffers[0][0])
                         {
                             fixed (byte* pDestination = &buffer[0])
@@ -92,8 +109,14 @@ namespace Ratchet.Audio
                             }
                         }
                     }
-                    processedCount = frameCount * _OutputBytePerFrame;
+
+
+
                 }
+     
+
+                processedCount = frameCount * _OutputBytePerFrame;
+
                 return processedCount;
             }
         }
