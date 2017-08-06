@@ -26,7 +26,7 @@ namespace Ratchet.Audio
             public override float X { get { return _Channel.X; } set { _Channel.X = value; } }
             public override float Y { get { return _Channel.Y; } set { _Channel.Y = value; } }
             public override float Z { get { return _Channel.Z; } set { _Channel.Z = value; } }
-            public override uint SampleRate { get => _Channel.SampleRate; set => _Channel.SampleRate = value; }
+            public override uint SampleRate { get { return _Channel.SampleRate; } set { _Channel.SampleRate = value; } }
 
 
             Source<byte> _Channel = null;
@@ -56,7 +56,7 @@ namespace Ratchet.Audio
             public override float X { get { return _Channel.X; } set { _Channel.X = value; } }
             public override float Y { get { return _Channel.Y; } set { _Channel.Y = value; } }
             public override float Z { get { return _Channel.Z; } set { _Channel.Z = value; } }
-            public override uint SampleRate { get => _Channel.SampleRate; set => _Channel.SampleRate = value; }
+            public override uint SampleRate { get { return _Channel.SampleRate; } set { _Channel.SampleRate = value; } }
 
             Source<Int16> _Channel = null;
             Int16[] _TempBuffer = new Int16[16 * 1024];
@@ -85,7 +85,7 @@ namespace Ratchet.Audio
             public override float X { get { return _Channel.X; } set { _Channel.X = value; } }
             public override float Y { get { return _Channel.Y; } set { _Channel.Y = value; } }
             public override float Z { get { return _Channel.Z; } set { _Channel.Z = value; } }
-            public override uint SampleRate { get => _Channel.SampleRate; set => _Channel.SampleRate = value; }
+            public override uint SampleRate { get { return _Channel.SampleRate; } set { _Channel.SampleRate = value; } }
 
             Source<Int32> _Channel = null;
             Int32[] _TempBuffer = new Int32[16 * 1024];
