@@ -14,7 +14,7 @@ namespace Ratchet.Audio
         {
             Source<float> _Source;
             float[] _TempBuffer = new float[4096];
-            public override uint SampleRate { get { return 192000; } set => base.SampleRate = value; }
+            public override uint SampleRate { get { return 192000; } set { base.SampleRate = value; } }
             public Upsampler_To_192K(Source<float> Source)
             {
                 _Source = Source;

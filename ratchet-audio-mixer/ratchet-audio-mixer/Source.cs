@@ -23,9 +23,9 @@ namespace Ratchet.Audio
 
         class Source_Byte_Adapter : Source<float>
         {
-            public override float X { get => _Channel.X; set => _Channel.X = value; }
-            public override float Y { get => _Channel.Y; set => _Channel.Y = value; }
-            public override float Z { get => _Channel.Z; set => _Channel.Z = value; }
+            public override float X { get { return _Channel.X; } set { _Channel.X = value; } }
+            public override float Y { get { return _Channel.Y; } set { _Channel.Y = value; } }
+            public override float Z { get { return _Channel.Z; } set { _Channel.Z = value; } }
             public override uint SampleRate { get => _Channel.SampleRate; set => _Channel.SampleRate = value; }
 
 
@@ -53,9 +53,9 @@ namespace Ratchet.Audio
 
         class Source_Int16_Adapter : Source<float>
         {
-            public override float X { get => _Channel.X; set => _Channel.X = value; }
-            public override float Y { get => _Channel.Y; set => _Channel.Y = value; }
-            public override float Z { get => _Channel.Z; set => _Channel.Z = value; }
+            public override float X { get { return _Channel.X; } set { _Channel.X = value; } }
+            public override float Y { get { return _Channel.Y; } set { _Channel.Y = value; } }
+            public override float Z { get { return _Channel.Z; } set { _Channel.Z = value; } }
             public override uint SampleRate { get => _Channel.SampleRate; set => _Channel.SampleRate = value; }
 
             Source<Int16> _Channel = null;
@@ -82,9 +82,9 @@ namespace Ratchet.Audio
 
         class Source_Int32_Adapter : Source<float>
         {
-            public override float X { get => _Channel.X; set => _Channel.X = value; }
-            public override float Y { get => _Channel.Y; set => _Channel.Y = value; }
-            public override float Z { get => _Channel.Z; set => _Channel.Z = value; }
+            public override float X { get { return _Channel.X; } set { _Channel.X = value; } }
+            public override float Y { get { return _Channel.Y; } set { _Channel.Y = value; } }
+            public override float Z { get { return _Channel.Z; } set { _Channel.Z = value; } }
             public override uint SampleRate { get => _Channel.SampleRate; set => _Channel.SampleRate = value; }
 
             Source<Int32> _Channel = null;
