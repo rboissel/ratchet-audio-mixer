@@ -9,7 +9,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{7A77
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniWavePlayer", "Samples\MiniWavePlayer\MiniWavePlayer.csproj", "{694460FC-5AF2-43DC-84EB-172688D7F705}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Builds", "Builds", "{656E450E-1867-4030-9560-265A1FBF9EEC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{656E450E-1867-4030-9560-265A1FBF9EEC}"
+	ProjectSection(SolutionItems) = preProject
+		Build\Ratchet.Audio.Mixer.nuspec = Build\Ratchet.Audio.Mixer.nuspec
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "racthet-audio-mixer-net45", "Build\racthet-audio-mixer-net45\racthet-audio-mixer-net45.csproj", "{45913A26-C37A-4EFB-8918-5AEA5B6A63DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ratchet-audio-mixer-net40", "Build\ratchet-audio-mixer-net40\ratchet-audio-mixer-net40.csproj", "{021D9BF2-6FD0-4E10-B762-B2513AD5AEAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,11 +32,21 @@ Global
 		{694460FC-5AF2-43DC-84EB-172688D7F705}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{694460FC-5AF2-43DC-84EB-172688D7F705}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{694460FC-5AF2-43DC-84EB-172688D7F705}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45913A26-C37A-4EFB-8918-5AEA5B6A63DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45913A26-C37A-4EFB-8918-5AEA5B6A63DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45913A26-C37A-4EFB-8918-5AEA5B6A63DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45913A26-C37A-4EFB-8918-5AEA5B6A63DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{021D9BF2-6FD0-4E10-B762-B2513AD5AEAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{021D9BF2-6FD0-4E10-B762-B2513AD5AEAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{021D9BF2-6FD0-4E10-B762-B2513AD5AEAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{021D9BF2-6FD0-4E10-B762-B2513AD5AEAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{694460FC-5AF2-43DC-84EB-172688D7F705} = {7A7750A9-228C-463D-B03C-E21E0CD69B73}
+		{45913A26-C37A-4EFB-8918-5AEA5B6A63DF} = {656E450E-1867-4030-9560-265A1FBF9EEC}
+		{021D9BF2-6FD0-4E10-B762-B2513AD5AEAC} = {656E450E-1867-4030-9560-265A1FBF9EEC}
 	EndGlobalSection
 EndGlobal

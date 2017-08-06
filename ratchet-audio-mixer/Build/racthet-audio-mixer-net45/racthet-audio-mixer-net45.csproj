@@ -1,35 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7336AAE5-5A29-4202-BED0-4530AD271213}</ProjectGuid>
+    <ProjectGuid>{45913A26-C37A-4EFB-8918-5AEA5B6A63DF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ratchet_audio_mixer</RootNamespace>
-    <AssemblyName>ratchet-audio-mixer</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <RootNamespace>racthet_audio_mixer_net45</RootNamespace>
+    <AssemblyName>racthet-audio-mixer-net45</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\lib\</OutputPath>
+    <OutputPath>..\..\bin\Debug\ratchet-audio-mixer\lib\net45\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\bin\Debug\ratchet-audio-mixer\lib\net45\racthet-audio-mixer.xml</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\lib\</OutputPath>
+    <OutputPath>..\..\bin\Release\ratchet-audio-mixer\lib\net45\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\bin\Release\ratchet-audio-mixer\lib\net45\racthet-audio-mixer.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -42,19 +45,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Resampler.cs" />
-    <Compile Include="Source.cs" />
-    <Compile Include="Listener.cs" />
-    <Compile Include="Mixer_Interface.cs" />
-    <Compile Include="Mixer_Output.cs" />
+    <Compile Include="..\..\ratchet-audio-mixer\Listener.cs">
+      <Link>Listener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ratchet-audio-mixer\Mixer_Interface.cs">
+      <Link>Mixer_Interface.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ratchet-audio-mixer\Mixer_Output.cs">
+      <Link>Mixer_Output.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ratchet-audio-mixer\Resampler.cs">
+      <Link>Resampler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\ratchet-audio-mixer\Source.cs">
+      <Link>Source.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
